@@ -1,0 +1,66 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    
+    ///  Traverse list by swaping nodes in duplicate    
+    public ListNode SwapPairs(ListNode head) 
+    {
+        if(head == null)
+            return head;
+        if(head.next == null)
+            return head;
+        
+        ListNode dummyNode = new ListNode(0),
+                 current,
+                 previous,
+                 next;
+        
+        dummyNode.next = head.next; // return value
+        
+        // set nodes
+        previous = head; // initial node
+        current = head.next; // second node
+        next = current.next; // potential next link
+        
+        while(true)
+        {
+            // point last node of link to first node
+            current.next = previous;
+            
+            
+            // verify if end of list is next
+            if(next == null || next.next == null)
+            {
+                // if it's then set first node's next
+                // to the end of list and exit loop
+                previous.next = next;
+                break;
+            } // end of list reached; break out of loop
+            
+            // set first node of loop's next node
+            // to last node of next set to be reversed
+            previous.next = next.next;
+            
+            // advance nodes:
+            
+            // previous goes forward to first node of
+            // next set to be swaped
+            // which will be behind current node
+            previous = next;
+            // current moves foward two nodes
+            current = next.next;
+            // next moves one node ahead of current
+            next = current.next;
+        }// end swaping nodes
+        
+        // return head of list with nodes swaped in duplicates
+        return dummyNode.next;
+    }
+   
+}
