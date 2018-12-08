@@ -1,0 +1,85 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode DeleteDuplicates(ListNode head) {
+        
+        if(head == null)
+            return head;
+        if(head.next == null)
+            return head;
+        
+        // dummy node to keep track of head node
+        ListNode DummyHead = new ListNode(0),
+                 curr = head, // current node
+                 pre = DummyHead; // previous node
+        bool dirty = false; // flag to indicate
+                            // repeated value(s) found
+        
+        DummyHead.next = head; // set return value 
+        pre.next = curr; // initial case pre is null
+                         // pre.next is set to head
+                         // of list
+        
+        // iterate throguh list
+        while(curr.next!=null)
+        {
+            // if current value equals next value
+            // start going through repeated value
+            // until you find the next number
+            while(curr.val == curr.next.val)
+            {
+                curr = curr.next; // get next node
+                
+                // if we found end of list
+                // set previous.next to end of list
+                // and then return 
+                if(curr.next == null)
+                {
+                    pre.next = curr.next;
+                    return DummyHead.next;
+                }
+                //set flag
+                if(!dirty)
+                  dirty = true;
+            }
+            
+            // once we passed all the repeated values
+            // set previous.next pointer to next value
+            if(dirty)
+            {
+                // set pointer to jump all repeated nodes
+                pre.next = curr.next;
+                
+                // bring back current node to previous node
+                // to start traversing again in case next numbers
+                // also repeat
+                curr = pre;
+                dirty = false;
+                
+                                
+            }
+            else
+            {
+                // move previous node to next node
+                pre = curr;
+                
+                // move current node to next node
+                curr = curr.next;
+                
+                // set previous next pointer to node ahead
+                pre.next = curr;
+                
+            }
+        }
+        
+        // return head
+        return DummyHead.next;
+        
+    } // end remove repeated value
+}
