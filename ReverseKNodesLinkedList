@@ -1,0 +1,81 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode ReverseBetween(ListNode head, int m, int n) {
+        
+        // pre conditions
+        // for nulls, small list or 
+        // no swap needed
+        if(head == null)
+            return head;
+        if(m == n)
+            return head;
+        if(head.next == null)
+            return head;
+        
+        // define variables
+        ListNode pre = new ListNode(0), // dummy head
+                 current, //last swap node place holder
+                 next, // node behind current
+                       // its next pointer will point
+                       // node behind i.e. start
+                 start, // node behind next
+                 tmpStart; // place holder to hold
+                           // begining of subset
+        
+        int i = 1; // iterator counter starts at 1
+        
+        // dummy pointer.next points to head
+        pre.next = head;
+        
+        // find begining of subset
+        while(i < m)
+        {
+            pre = pre.next;
+            i++;
+        }
+        
+        start = pre.next; // start node of subset
+        next = start.next; // node to change its next pointer
+        
+        // place holder for end of loop
+        // connect to tail of list
+        tmpStart = start;
+        
+        // start reversing subset of nodes
+        while(i < n)
+        {
+            // holder for node ahead of next
+            current = next.next;
+            
+            // point to last node
+            next.next = start;
+            
+            // move variables to next nodes
+            start = next;
+            next = current;
+            
+            i++;
+        } // finish reversing list
+        
+        // if subset starts after first node
+        if(m > 1)
+            pre.next = start; // point next to last node of subset
+        else // if subset starts at first node
+            head = start;
+        
+        // point first node fo subset to next node
+        // after end of subset
+        tmpStart.next = next; 
+        
+        
+        
+        return head; // return head of reversed k elements in list
+    }
+}
