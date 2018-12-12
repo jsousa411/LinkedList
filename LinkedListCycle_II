@@ -1,0 +1,57 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode DetectCycle(ListNode head) {
+        
+        ListNode fast = head,
+                 slow = head;
+        
+        // loop through linked list
+        while(fast!=null)
+        {
+            // step fast forward
+            fast = fast.next;
+            
+            // check for null
+            if(fast == null)
+                return null; // no cycle
+            else
+            {
+                // step fast second time
+                fast = fast.next;
+                
+                // step slow once
+                slow = slow.next;
+                
+                //verify if cycle node is reached
+                if(fast == slow)
+                    break;
+                // verify if end of list is reached
+                 if(fast == null)
+                    return null; // no cycle
+            }
+        }
+        
+        fast = head;// reset fast
+        
+        // loop again to find overlapping slow and fast node
+        while(fast!=slow)
+        {
+            fast = fast.next;
+            slow = slow.next;
+        }
+
+        // return node
+        return slow;
+        
+    }
+}
