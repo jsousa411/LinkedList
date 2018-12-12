@@ -1,0 +1,63 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    
+    // determine if linked list has 
+    // a cycle or a repeated node
+    public bool HasCycle(ListNode head) {
+        
+        // intiial condition check
+        if(head == null)
+            return false;
+        if(head.next == null)
+            return false;
+        
+        ListNode T1 = head,// slow node
+                 T2 = head;// fast node
+        bool HasCycle = false;// cycle indicator return value
+        
+        // loop through list until null is reached
+        // or fast meets slow nodes
+        while(T2.next != null && T2 !=null)
+        {
+            T1 = T1.next; 
+            T2 = T2.next; 
+            
+            // step fast node one more time
+            if(T2.next != null && T2 !=null)
+            { 
+                T2 = T2.next;
+                
+            }
+            else
+            {
+                // if fast node is null
+                // or fast.next is null
+                // there is no cycle
+                HasCycle =  false;
+                break;
+            }
+            
+            // if fast meest slow there is a cycle
+            if( T1 == T2)
+            {
+                HasCycle =  true;
+                break;
+            }
+            
+                
+        }
+        
+        // return finding
+        return HasCycle;
+    }// end search for cycle
+}
