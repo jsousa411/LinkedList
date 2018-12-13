@@ -1,0 +1,62 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+
+    // Increment value of last node in list
+    public ListNode PlusOne(ListNode head) {
+        
+        if(head == null)
+            return head;
+            
+       // recursive call
+       head.val += PlusOneHelper(head.next);
+        
+       if(head.val > 9)
+       { 
+           head.val = head.val%10;            
+           ListNode newHead = new ListNode(1);
+           newHead.next = head;
+           
+           return newHead;
+       }
+    
+      
+       return head;
+        
+    }
+    
+    // recursive traversal through list
+    static public int PlusOneHelper(ListNode head)
+    {
+        // return 1 if end of list is reached
+        if(head == null)
+            return 1;
+            
+        // increment value by remainder
+        head.val += PlusOneHelper(head.next);
+        
+        // if incremented value is greater than 9
+        // then we have to carry over 1 
+        if(head.val > 9)
+        { 
+            // adjust incremented value 
+            // by modulos 10 i.e. remainder of value/10
+            head.val = head.val%10;  
+            
+            // carry over 1
+            return 1;
+        }
+              
+        
+        // if no remainder
+        // return 0
+        return 0;
+        
+    }// end helper function
+}
