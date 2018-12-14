@@ -1,0 +1,85 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode Partition(ListNode head, int x) {
+        
+        // initial conditions setting
+        if(head == null)
+            return head;
+        
+        // if list had one single node
+        if(head.next == null)
+        {
+           return head;
+        }
+        
+        ListNode NodeXPreLocation = new ListNode(-1),
+                 TraverseList,                 
+                 insertNext,
+                 tmpNext;
+        
+        bool swapHead = false;
+        
+        NodeXPreLocation.next = head;
+        
+        if(NodeXPreLocation.val >= x)
+        {
+            NodeXPreLocation = NodeXPreLocation.next;
+            swapHead = true;
+        }
+        else
+            while(NodeXPreLocation.next!=null && NodeXPreLocation.next.val < x)
+            {
+                NodeXPreLocation = NodeXPreLocation.next;
+            }
+        
+        
+        TraverseList = NodeXPreLocation.next; // location to insert next node;
+       
+        
+        while(TraverseList != null )
+        {
+            if(TraverseList.next.val < x)
+            {
+                // remove node
+                tmpNext = TraverseList.next;
+                TraverseList.next = TraverseList.next.next;
+                
+                // step forward in list traversal
+                TraverseList = TraverseList.next;
+                
+                // adjust pointert of to new location
+                tmpNext.next = NodeXPreLocation.next;
+                NodeXPreLocation.next = tmpNext;
+                
+                
+                if(!swapHead)
+                    // adjust insert location
+                    NodeXPreLocation = tmpNext;
+
+                if(swapHead)
+                {
+                    NodeXPreLocation = tmpNext;
+                    NodeXPreLocation.next = tmpNext.next;
+                    head = tmpNext;
+                    swapHead = false;
+                }
+            }
+            else
+            {
+                // step forward in list traversal
+                TraverseList = TraverseList.next;
+            }
+        }
+        
+        return head ;
+    }
+    
+    
+}
